@@ -15,7 +15,7 @@ class AppColors {
   static const LinearGradient diagonalGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomCenter,
-    colors: [darkGrey, darkBlue],
+    colors: [darkGrey, Color(0xff2F3762)],
     stops: [0.5, 0.5],
   );
   static const LinearGradient applyGradient = LinearGradient(

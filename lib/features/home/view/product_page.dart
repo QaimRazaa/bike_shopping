@@ -1,5 +1,7 @@
 import 'package:bike_shopping/utils/constants/images.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart'; // Add this import
+import '../../../providers/tabbar_provider.dart';
 import '../../../shared/appbar.dart';
 import '../../../shared/tabbar.dart';
 import '../../../utils/constants/colors.dart';
@@ -19,13 +21,10 @@ class _ProductPageState extends State<ProductPage>
   late Animation<double> _scaleAnimation;
   late Animation<Offset> _positionAnimation;
 
-  bool _isExpanded = false;
-
   @override
   void initState() {
     super.initState();
 
-    // Initial slide in animation
     _slideController = AnimationController(
       duration: const Duration(milliseconds: 800),
       vsync: this,
@@ -39,7 +38,6 @@ class _ProductPageState extends State<ProductPage>
       curve: Curves.easeInOut,
     ));
 
-    // Shrink and move animation
     _shrinkController = AnimationController(
       duration: const Duration(milliseconds: 300),
       vsync: this,
@@ -72,54 +70,56 @@ class _ProductPageState extends State<ProductPage>
   }
 
   void _onExpandChanged(bool isExpanded) {
-    setState(() {
-      _isExpanded = isExpanded;
-      if (isExpanded) {
-        _shrinkController.forward();
-      } else {
-        _shrinkController.reverse();
-      }
-    });
+    if (isExpanded) {
+      _shrinkController.forward();
+    } else {
+      _shrinkController.reverse();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        gradient: AppColors.diagonalGradient,
-      ),
-      child: Scaffold(
-        appBar: const CustomAppBar(
-          title: 'PEUGEOT - LR01',
-          showBack: true,
+    return ChangeNotifierProvider(
+      create: (context) => TabBarProvider(),
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: AppColors.diagonalGradient,
         ),
-        backgroundColor: Colors.transparent,
-        body: Stack(
-          children: [
-            Positioned.fill(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SlideTransition(
-                    position: _slideAnimation,
-                    child: SlideTransition(
-                      position: _positionAnimation,
-                      child: ScaleTransition(
-                        scale: _scaleAnimation,
-                        child: Image(
-                          image: AssetImage(AppImages.cycleTwo),
+        child: Scaffold(
+          appBar: CustomAppBar(
+            title: 'PEUGEOT - LR01',
+            showBack: true,
+            useTabBarProvider: true,
+            onExpandChanged: _onExpandChanged,
+          ),
+          backgroundColor: Colors.transparent,
+          body: Stack(
+            children: [
+              Positioned.fill(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SlideTransition(
+                      position: _slideAnimation,
+                      child: SlideTransition(
+                        position: _positionAnimation,
+                        child: ScaleTransition(
+                          scale: _scaleAnimation,
+                          child: Image(
+                            image: AssetImage(AppImages.cycleTwo),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
-        ),
-        bottomNavigationBar: TabBarWidget(
-          onExpandChanged: _onExpandChanged,
+            ],
+          ),
+          bottomNavigationBar: TabBarWidget(
+            onExpandChanged: _onExpandChanged,
+          ),
         ),
       ),
     );

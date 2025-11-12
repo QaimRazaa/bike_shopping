@@ -14,34 +14,31 @@ class TabBarWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => TabBarProvider(),
-      child: Consumer<TabBarProvider>(
-        builder: (context, provider, _) {
-          return AnimatedContainer(
-            duration: const Duration(milliseconds: 300),
-            curve: Curves.easeInOut,
-            height: provider.getContainerHeight(
-              AppSizes.height(50),
-              AppSizes.height(14),
+    return Consumer<TabBarProvider>(
+      builder: (context, provider, _) {
+        return AnimatedContainer(
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+          height: provider.getContainerHeight(
+            AppSizes.height(50),
+            AppSizes.height(14),
+          ),
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: AppColors.darkGrey,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(AppSizes.radius(10)),
+              topRight: Radius.circular(AppSizes.radius(10)),
             ),
-            width: double.infinity,
-            decoration: BoxDecoration(
-              color: AppColors.darkGrey,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(AppSizes.radius(10)),
-                topRight: Radius.circular(AppSizes.radius(10)),
-              ),
-            ),
-            child: Column(
-              children: [
-                _buildTabBar(context, provider),
-                if (provider.isExpanded) _buildExpandedContent(provider),
-              ],
-            ),
-          );
-        },
-      ),
+          ),
+          child: Column(
+            children: [
+              _buildTabBar(context, provider),
+              if (provider.isExpanded) _buildExpandedContent(provider),
+            ],
+          ),
+        );
+      },
     );
   }
 
@@ -94,7 +91,7 @@ class TabBarWidget extends StatelessWidget {
             title,
             style: TextStyle(
               color: isSelected
-                  ? AppColors.darkBlue
+                  ? AppColors.primary
                   : Colors.white.withOpacity(0.5),
               fontSize: AppSizes.font(1.9),
               fontWeight: isSelected ? FontWeight.w500 : FontWeight.w400,

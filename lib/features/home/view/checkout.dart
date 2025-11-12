@@ -26,11 +26,11 @@ class _CheckoutState extends State<Checkout> {
 
             Stack(
               children: [
-                Image(image: AssetImage(AppImages.checkout)),
+                Center(child: Image(image: AssetImage(AppImages.checkout))),
 
                 Positioned(
                   top: AppSizes.height(2),
-                  left: AppSizes.width(4),
+                  left: AppSizes.width(6),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

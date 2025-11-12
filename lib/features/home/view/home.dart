@@ -1,9 +1,7 @@
 import 'package:bike_shopping/core/routes/routes.dart';
-import 'package:bike_shopping/features/home/view/widgets/bike_card.dart';
 import 'package:bike_shopping/features/home/view/widgets/category_chip.dart';
 import 'package:bike_shopping/utils/constants/colors.dart';
 import 'package:bike_shopping/utils/constants/images.dart';
-import 'package:bike_shopping/utils/constants/sizes.dart';
 import 'package:flutter/material.dart';
 import '../../../navigation_bar.dart';
 import '../../../shared/appbar.dart';
@@ -80,13 +78,10 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
 
-            Container(
-              decoration: BoxDecoration(color: Colors.transparent),
-              child: Image.asset(
-                AppImages.navbar,
-                width: double.infinity,
-                fit: BoxFit.cover,
-              ),
+            Image.asset(
+              AppImages.navbar,
+              width: double.infinity,
+              fit: BoxFit.fill,
             ),
           ],
         ),

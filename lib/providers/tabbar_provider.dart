@@ -14,6 +14,13 @@ class TabBarProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void collapseTabBar(ValueChanged<bool>? onExpandChanged) {
+    _isExpanded = false;
+    _selectedIndex = 1;
+    onExpandChanged?.call(_isExpanded);
+    notifyListeners();
+  }
+
   bool isTabSelected(int index) {
     return _selectedIndex == index;
   }

@@ -2,14 +2,17 @@ import 'package:bike_shopping/utils/constants/colors.dart';
 import 'package:bike_shopping/utils/constants/images.dart';
 import 'package:bike_shopping/utils/helpers/app_sizes.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../providers/tabbar_provider.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final VoidCallback? onSearchTap;
   final VoidCallback? onBackTap;
-
   final bool showBack;
   final bool showCart;
+  final bool useTabBarProvider; // New parameter
+  final ValueChanged<bool>? onExpandChanged; // New parameter
 
   const CustomAppBar({
     Key? key,
@@ -18,31 +21,18 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.onBackTap,
     this.showBack = false,
     this.showCart = false,
+    this.useTabBarProvider = false,
+    this.onExpandChanged,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
     return AppBar(
       automaticallyImplyLeading: false,
       backgroundColor: AppColors.darkGrey,
       elevation: 0,
       centerTitle: true,
-
-      leading: showBack
-          ? GestureDetector(
-        onTap: (){Navigator.pop(context);},
-        child: Padding(
-          padding: EdgeInsets.only(left: AppSizes.width(3)),
-          child: Image.asset(
-            AppImages.backIcon,
-            fit: BoxFit.contain,
-            height: AppSizes.height(4),
-          ),
-        ),
-      )
-          : null,
-
+      leading: _buildLeading(context),
       title: Text(
         title,
         style: TextStyle(
@@ -51,7 +41,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           fontWeight: FontWeight.w600,
         ),
       ),
-
       actions: showCart
           ? [
         Padding(
@@ -67,6 +56,60 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         ),
       ]
           : [],
+    );
+  }
+
+  Widget? _buildLeading(BuildContext context) {
+    if (!showBack) return null;
+
+    // If using TabBarProvider, show dynamic icon based on expansion state
+    if (useTabBarProvider) {
+      return Consumer<TabBarProvider>(
+        builder: (context, provider, _) {
+          return GestureDetector(
+            onTap: () {
+              if (provider.isExpanded) {
+                // Close the tab bar
+                provider.collapseTabBar(onExpandChanged);
+              } else {
+                // Normal back navigation
+                if (onBackTap != null) {
+                  onBackTap!();
+                } else {
+                  Navigator.pop(context);
+                }
+              }
+            },
+            child: Padding(
+              padding: EdgeInsets.only(left: AppSizes.width(3)),
+              child: Image.asset(
+                provider.isExpanded ? AppImages.downIcon : AppImages.backIcon,
+                fit: BoxFit.contain,
+                height: AppSizes.height(4),
+              ),
+            ),
+          );
+        },
+      );
+    }
+
+    // Default back button
+    return GestureDetector(
+      onTap: () {
+        if (onBackTap != null) {
+          onBackTap!();
+        } else {
+          Navigator.pop(context);
+        }
+      },
+      child: Padding(
+        padding: EdgeInsets.only(left: AppSizes.width(3)),
+        child: Image.asset(
+          AppImages.backIcon,
+          fit: BoxFit.contain,
+          height: AppSizes.height(4),
+        ),
+      ),
     );
   }
 

@@ -9,6 +9,7 @@ class AppImages{
   static String bikeTwo = "assets/images/items/biketwo.png";
   static String category = "assets/images/items/categories.png";
   static String backIcon = "assets/images/icons/backicon.png";
+  static String downIcon = "assets/images/icons/downicon.png";
   static String addToCartButton = "assets/images/items/addtocartbutton.png";
   static String cartItems = "assets/images/items/cartitems.png";
   static String checkout = "assets/images/items/checkout.png";
