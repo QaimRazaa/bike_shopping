@@ -1,4 +1,8 @@
 import 'package:bike_shopping/core/routes/routes.dart';
+import 'package:bike_shopping/features/home/view/cart.dart';
+import 'package:bike_shopping/features/home/view/checkout.dart';
+import 'package:bike_shopping/features/home/view/on_press.dart';
+import 'package:bike_shopping/features/home/view/product_page.dart';
 import 'package:flutter/material.dart';
 import 'package:bike_shopping/features/home/view/home.dart';
 
@@ -8,6 +12,14 @@ Route<dynamic> generateRoute(RouteSettings settings) {
   // Splash Screen
     case AppRoutes.homeScreen:
       return _buildAnimatedRoute(const HomeScreen());
+      case AppRoutes.onPressScreen:
+      return _buildAnimatedRoute(const OnPressScreen());
+      case AppRoutes.productPage:
+      return _buildAnimatedRoute(const ProductPage());
+      case AppRoutes.cartScreen:
+      return _buildAnimatedRoute(const CartScreen());
+      case AppRoutes.checkout:
+      return _buildAnimatedRoute(const Checkout());
 
     default:
       return _buildAnimatedRoute(

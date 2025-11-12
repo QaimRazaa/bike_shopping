@@ -1,3 +1,4 @@
+import 'package:bike_shopping/core/routes/routes.dart';
 import 'package:bike_shopping/features/home/view/widgets/bike_card.dart';
 import 'package:bike_shopping/features/home/view/widgets/category_chip.dart';
 import 'package:bike_shopping/utils/constants/colors.dart';
@@ -21,19 +22,13 @@ class _HomeScreenState extends State<HomeScreen> {
     AppImages.bikeTwo,
   ];
 
-
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        gradient: AppColors.diagonalGradient,
-      ),
+      decoration: BoxDecoration(gradient: AppColors.diagonalGradient),
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        appBar: CustomAppBar(
-          title: 'Choose Your Bike',
-          onSearchTap: () {},
-        ),
+        appBar: CustomAppBar(title: 'Choose Your Bike', onSearchTap: () {},showCart: true,),
         body: Column(
           children: [
             Expanded(
@@ -41,7 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    SizedBox(height: AppSizes.height(1),),
+                    SizedBox(height: AppSizes.height(1)),
                     Image.asset(AppImages.featureCard),
                     Image.asset(
                       AppImages.category,
@@ -64,13 +59,19 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         itemCount: bikeImages.length,
                         itemBuilder: (context, index) {
-                          return Image.asset(
-                            bikeImages[index],
-                            fit: BoxFit.contain,
+                          return GestureDetector(
+                            onTap: (){
+                              if(index == 0){
+                                Navigator.pushNamed(context, AppRoutes.onPressScreen);
+                              }
+                            },
+                            child: Image.asset(
+                              bikeImages[index],
+                              fit: BoxFit.contain,
+                            ),
                           );
                         },
                       ),
-
                     ),
 
                     SizedBox(height: AppSizes.height(2)),
@@ -80,9 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
 
             Container(
-              decoration: BoxDecoration(
-                color: Colors.transparent
-              ),
+              decoration: BoxDecoration(color: Colors.transparent),
               child: Image.asset(
                 AppImages.navbar,
                 width: double.infinity,
